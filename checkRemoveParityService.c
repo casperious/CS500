@@ -26,8 +26,8 @@ int checkRemoveParity(char** characters)
 		}
 		if(numCharsNumOnes%2==0)
 		{
-			printf("Num chars has wrong parity\n");
-			exit(-1);
+			printf("Num chars has wrong parity. Corrupted Data\n");
+			//exit(-1);
 		}	
 	}
 	else
@@ -41,12 +41,14 @@ int checkRemoveParity(char** characters)
 		}
 		if(numCharsNumOnes%2==1)
 		{
-			printf("Num chars has wrong parity\n");
-			exit(-1);
+			printf("Num chars has wrong parity. Corrupted Data\n");
+			//exit(-1);
 		}	
 	}
 	int numChars = (int)strtol(characters[3],NULL,2);
+	printf("Num chars is %d\n",numChars);
 	char* removedBitsChars[numChars+2];	
+	//printf("Size of removedBitsChars is %ld\n",sizeof(removedBitsChars)/sizeof(*removedBitsChars));
 	removedBitsChars[0]="decoder";
 	int k =1;
 	//char* removedBitsChars[66]={""};
@@ -69,8 +71,8 @@ int checkRemoveParity(char** characters)
 			//printf("Num ones is %d\t",numOnes);
 			if(numOnes%2==0)
 			{
-				printf("Incorrect parity\n");
-				exit(-10);
+				printf("Incorrect parity. Corrupted Data\n");
+				//exit(-10);
 			}
 			strncpy(block,characters[i]+1,7);
 			//printf("Block is %s and num 1s is %d\n",block,numOnes);
@@ -94,8 +96,8 @@ int checkRemoveParity(char** characters)
 			//printf("Num ones is %d\t",numOnes);
 			if(numOnes%2==1)
 			{
-				printf("Incorrect parity\n");
-				exit(-10);
+				printf("Incorrect parity. Corrupted Data\n");
+				//exit(-10);
 			}
 			strncpy(block,characters[i]+1,7);
 			//printf("Block is %s and numOnes is %d\n",block,numOnes);
@@ -105,10 +107,12 @@ int checkRemoveParity(char** characters)
 		k++;
 	}
 	removedBitsChars[numChars+1]=NULL;
-	for(int i =0;i<=numChars+1;i++)
+	//printf("Size of removedBitsChars is %ld\n",sizeof(removedBitsChars));
+	/*for(int i =0;i<=numChars+1;i++)
 	{
 		printf("removedBitsChars[%d] is %s\n",i,removedBitsChars[i]);
-	}
+	}*/
+	//printf("Size of removedBitsChars is %ld\n",sizeof(removedBitsChars)/sizeof(*removedBitsChars));
 	printf("All parity bits verified \n");
 	int pid;
 	pid = fork();

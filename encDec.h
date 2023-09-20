@@ -2,7 +2,7 @@ int producer();
 int encode(char *inData,char *len, char* fdOut_One);
 int transmit(char inData[]);
 int decode(char** blocks);
-int toUpper(char inData[]);
+int toUpper(char* str, char* len);
 int consumer(char* fdOut,char* fdIn);
 void addParity(char *inData, char* fdOut_One);
 void buildFrame(char *inData, char* fdOut_One);
