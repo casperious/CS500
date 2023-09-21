@@ -71,7 +71,7 @@ int main(){
 		close(fdIn[1]);		*/		  										//close write of fdIn
 		close(fdOut[0]);													//close read of p=>c
 		close(fdIn[1]);														//close write of c=>p
-		//char buff[1025];
+		char buff[1025];
 		//read(fdIn[0],buff,sizeof(buff));
 		//printf("recieved capitalized %s\n",buff);
 		//wait(NULL);
@@ -139,6 +139,9 @@ int main(){
 		}
 	}
 	int status,options;
+	char buff[1025];
+	read(fdIn[0],buff,sizeof(buff));
+	printf("recieved capitalized %s\n",buff);
 	waitpid(consPid,&status,options);				//wait on consumer process to finish
 	close(fdIn[0]);
 	close(fdOut[1]);
