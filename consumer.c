@@ -21,7 +21,7 @@ int consumer(char* fdOut_Zero,char* fdIn_One)
 	//printf("fdIn[1] is %d\n",fdIn);
 	char buff[1025];
 	read(fdOut,buff,1025);
-	//printf("Recieved %s in consumer\n",buff);
+	printf("Recieved %s in consumer\n",buff);
 	FILE* fp;
 	fp = fopen("consumer.txt","w");
 	fputs(buff,fp);
@@ -30,7 +30,7 @@ int consumer(char* fdOut_Zero,char* fdIn_One)
 	pid1 = fork();
 	if(pid1==0)
 	{
-		execl("deframe","deframe",buff,NULL);
+		execl("deframe","deframe",buff,fdIn_One,NULL);
 	}
 	else if (pid1>0)
 	{

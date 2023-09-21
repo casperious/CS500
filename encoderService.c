@@ -17,7 +17,7 @@ int encode(char *inData,char* len, char* fdOut_One){
 	char bin[1025]="";
 	int length;
 	sscanf(len,"%d",&length);
-	//printf("length is %d\n",length);
+	printf("length is %d\n",length);
 	int num = length;
 	int j =6;
 	char res[7]="0000000";
@@ -31,7 +31,7 @@ int encode(char *inData,char* len, char* fdOut_One){
 	//printf("Binary result of length is %s\n",res);
 	strncat(bin,res,7);
 	
-	for(int i =0;i<strlen(inData)-1;i++){
+	for(int i =0;i<length;i++){
 		int ascii = inData[i];										//Get ascii int value of character
 		int num = ascii;
 		int j = 6;
@@ -43,6 +43,7 @@ int encode(char *inData,char* len, char* fdOut_One){
 			num=num/2;												//divide ascii by 2
 			j--;													//move to next lowest bit to be stored	
 		}
+		printf("result for inData[%d] is %s\n",i,result);
 		strncat(bin,result,7);
 	}
 	int pid;

@@ -11,6 +11,7 @@
 int main(){
 	FILE* ptr;
 	FILE* binf;
+	FILE* outf;
 	char str[64];
 	
 	int pid;
@@ -18,6 +19,8 @@ int main(){
 	ptr = fopen("data.inpf","r");
 	binf = fopen("data.binf","w");
 	fclose(binf);
+	outf = fopen("data.outf","w");
+	fclose(outf);
 	if(NULL== ptr){
 		printf("File not found \n");
 		return(-1);

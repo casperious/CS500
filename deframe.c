@@ -7,17 +7,19 @@
 
 int main(int argc, char* argv[])
 {
-	deframe(argv[1]);
+	deframe(argv[1],argv[2]);
 	return 0;
 }
 
-int deframe(char* inData)
+int deframe(char* inData,char* fdIn_One)
 {
 	//printf("Recieved %s in deframe\n",inData);
 	
-	char* characters[70]={"checkRemoveParityService"};
+	char* characters[71]={"checkRemoveParityService",fdIn_One};														//way im initializing characters may be wrong. Might not work for 64 chars
+	printf("chars[1] is %s\n",characters[1]);
+	printf("chars[0] is %s\n",characters[0]);
 	int j =0;
-	int k =1;
+	int k =2;
 	char block[9]="00000000";
 	for(int i =0;i<strlen(inData)+1;i++)
 	{
@@ -30,15 +32,17 @@ int deframe(char* inData)
 		else
 		{
 			characters[k]=strdup(block);
+			printf("adding %s to characters[%d]\n",characters[k],i);
 			j = 0;
 			block[j]=inData[i];
 			j++;
 			k++;
 		}
 	}
-	if(strcmp(characters[1],"00010110")!=0 || strcmp(characters[2],"00010110")!=0)
+	printf("characters[71] is %s\n",characters[71]);
+	if(strcmp(characters[2],"00010110")!=0 || strcmp(characters[3],"00010110")!=0)
 	{
-		printf("Incorrect syn chars characters[1] = %s chars[2] = %s\n",characters[1],characters[2]);
+		printf("Incorrect syn chars characters[2] = %s chars[3] = %s\n",characters[2],characters[3]);
 		return -1;
 	}
 	int pid;

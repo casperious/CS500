@@ -11,15 +11,21 @@ int main(int argc, char* argv[])
 	return 0;
 }
 
-int checkRemoveParity(char** characters)
+/*
+characters[0] is service name
+chars[1] is fdIn[1]
+chars[2] and [3] are syn
+chars[4] is numChars
+*/
+int checkRemoveParity(char** characters)		
 {
 	//printf("args[3] in removeParity is %s\n",characters[3]);
-	int numCharsNumOnes = 0;
-	if(characters[3][0]=='0')
+	int numCharsNumOnes = 0;			
+	if(characters[4][0]=='0')
 	{
 		for(int i =1;i<8;i++)
 		{
-			if(characters[3][i]=='1')
+			if(characters[4][i]=='1')
 			{
 				numCharsNumOnes++;
 			}
@@ -34,7 +40,7 @@ int checkRemoveParity(char** characters)
 	{
 		for(int i =1;i<8;i++)
 		{
-			if(characters[3][i]=='1')
+			if(characters[4][i]=='1')
 			{
 				numCharsNumOnes++;
 			}
@@ -45,14 +51,18 @@ int checkRemoveParity(char** characters)
 			//exit(-1);
 		}	
 	}
-	int numChars = (int)strtol(characters[3],NULL,2);
+	int numChars = (int)strtol(characters[4],NULL,2);
 	printf("Num chars is %d\n",numChars);
-	char* removedBitsChars[numChars+2];	
-	//printf("Size of removedBitsChars is %ld\n",sizeof(removedBitsChars)/sizeof(*removedBitsChars));
+	char* removedBitsChars[numChars+3];										//+1 for decoder, +1 for fdIn[1], +1 for null
+	int len = sizeof(removedBitsChars)/sizeof(*removedBitsChars);
+	printf("Size of removedBitsChars is %d\n",len);
 	removedBitsChars[0]="decoder";
-	int k =1;
+	removedBitsChars[1]=characters[1];
+	printf("removedBitsChars[0] is %s\n",removedBitsChars[0]);
+	printf("removedBitsChars[1] is %s\n",removedBitsChars[1]);
+	int k =2;
 	//char* removedBitsChars[66]={""};
-	for(int i = 4;i<=numChars+3;i++)
+	for(int i = 5;i<=numChars+4;i++)
 	{
 		//printf("Looking at %s\n",characters[i]);
 		char block[8];
@@ -75,7 +85,7 @@ int checkRemoveParity(char** characters)
 				//exit(-10);
 			}
 			strncpy(block,characters[i]+1,7);
-			//printf("Block is %s and num 1s is %d\n",block,numOnes);
+			printf("Block is %s and num 1s is %d\n",block,numOnes);
 		}
 		else
 		{
@@ -100,18 +110,18 @@ int checkRemoveParity(char** characters)
 				//exit(-10);
 			}
 			strncpy(block,characters[i]+1,7);
-			//printf("Block is %s and numOnes is %d\n",block,numOnes);
+			printf("Block is %s and numOnes is %d\n",block,numOnes);
 		}
 		removedBitsChars[k]=strdup(block);
-		//printf("block is %s\n",removedBitsChars[k]);
+		printf("block at %d is %s\n",k,removedBitsChars[k]);
 		k++;
 	}
-	removedBitsChars[numChars+1]=NULL;
+	removedBitsChars[len-1]=NULL;
 	//printf("Size of removedBitsChars is %ld\n",sizeof(removedBitsChars));
-	/*for(int i =0;i<=numChars+1;i++)
+	for(int i =0;i<len;i++)
 	{
 		printf("removedBitsChars[%d] is %s\n",i,removedBitsChars[i]);
-	}*/
+	}
 	//printf("Size of removedBitsChars is %ld\n",sizeof(removedBitsChars)/sizeof(*removedBitsChars));
 	printf("All parity bits verified \n");
 	int pid;
