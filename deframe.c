@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
 
 int deframe(char* inData,char* fdIn_One)
 {
-	//printf("Recieved %s in deframe\n",inData);
+	printf("Recieved %s in deframe\n",inData);
 	
 	char* characters[71]={"checkRemoveParityService",fdIn_One};														//way im initializing characters may be wrong. Might not work for 64 chars
 	printf("chars[1] is %s\n",characters[1]);

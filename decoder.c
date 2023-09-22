@@ -45,21 +45,34 @@ int decode(char** blocks)
 	char charCount[64];
 	sprintf(charCount,"%d",numChars+1);
 	printf("charCount is %s\n",charCount);																			//pass -1 as fdIn_One when calling from producer. if(fd==-1) then write to data.done, else fork
-	int pid;
-	pid = fork();
-	if(pid==0)
-	{	
-		printf("Calling to upper with %s\n",fdIn_One);
-		execl("toUpperService","toUpperService",data,charCount,fdIn_One,NULL);
-	}
-	else if (pid>0)
+	int fd;
+	sscanf(fdIn_One,"%d",&fd);
+	if(fd==-1)
 	{
-		wait(NULL);
-		//printf("In parent\n");
+		FILE* ptr;
+		ptr = fopen("data.done","a");
+		fputs(data,ptr);
+		fclose(ptr);
+		return 1;
 	}
 	else
 	{
-		printf("Fork fail in decoder\n");
+		int pid;
+		pid = fork();
+		if(pid==0)
+		{	
+			printf("Calling to upper with %s\n",fdIn_One);
+			execl("toUpperService","toUpperService",data,charCount,fdIn_One,NULL);
+		}
+		else if (pid>0)
+		{
+			wait(NULL);
+			//printf("In parent\n");
+		}
+		else
+		{
+			printf("Fork fail in decoder\n");
+		}
 	}
 	return 0;
 	// convert bit string to characters, then send to toUpperService

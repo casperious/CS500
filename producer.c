@@ -12,6 +12,7 @@ int main(){
 	FILE* ptr;
 	FILE* binf;
 	FILE* outf;
+	FILE* clearDone;
 	char str[64];
 	
 	int pid;
@@ -21,6 +22,8 @@ int main(){
 	fclose(binf);
 	outf = fopen("data.outf","w");
 	fclose(outf);
+	//clearDone = fopen("data.done","w");
+	//fclose(clearDone);
 	if(NULL== ptr){
 		printf("File not found \n");
 		return(-1);
@@ -42,7 +45,7 @@ int main(){
 		return -2;
 	}
 	//printf("fdIn is %d,%d and fdOut is %d,%d\n",fdIn[0],fdIn[1],fdOut[0],fdOut[1]);
-	consPid = fork();
+	consPid = fork();														//have to remove dependency on pipe fd in services
 	if(consPid==0)
 	{
 		/*close(0);															//consumer will read fdOut through stdIn
@@ -63,6 +66,8 @@ int main(){
 	}
 	else if(consPid>0)
 	{
+		clearDone = fopen("data.done","w");
+		fclose(clearDone);
 		/*close(1);
 		dup(fdOut[1]);														//producer will write to fdOut through stdOut
 		close(fdOut[0]);													//close read of fdOut
@@ -71,10 +76,6 @@ int main(){
 		close(fdIn[1]);		*/		  										//close write of fdIn
 		close(fdOut[0]);													//close read of p=>c
 		close(fdIn[1]);														//close write of c=>p
-		char buff[1025];
-		//read(fdIn[0],buff,sizeof(buff));
-		//printf("recieved capitalized %s\n",buff);
-		//wait(NULL);
 		printf("Producer parent\n");
 	}
 	else
@@ -141,8 +142,28 @@ int main(){
 	int status,options;
 	char buff[1025];
 	read(fdIn[0],buff,sizeof(buff));
-	printf("recieved capitalized %s\n",buff);
+	printf("recieved capitalized %s of size %ld\n",buff,(strlen(buff)/8)-3);
+	//char strLen[64];
+	//sprintf(strLen,"%ld",(strlen(buff)/8)-3);
+	char argLast[4];
+	sprintf(argLast,"%d",-1);
+	int lastPid;
+	lastPid=fork();
+	if(lastPid==0){
+		printf("deframing capitalized\n");
+		execl("deframe","deframe",buff,argLast,NULL);
+	}
+	else if(lastPid>0)
+	{
+		wait(NULL);
+	}
+	else
+	{
+		printf("Last fork\n");
+	}
+	waitpid(lastPid,&status,options);
 	waitpid(consPid,&status,options);				//wait on consumer process to finish
+	printf("finished consumer\n");
 	close(fdIn[0]);
 	close(fdOut[1]);
 	fclose(ptr);
