@@ -43,7 +43,7 @@ int encode(char *inData,char* len, char* fdOut_One){
 			num=num/2;												//divide ascii by 2
 			j--;													//move to next lowest bit to be stored	
 		}
-		printf("result for inData[%d] is %s\n",i,result);
+		//printf("result for inData[%d] is %s\n",i,result);
 		strncat(bin,result,7);
 	}
 	int pid;

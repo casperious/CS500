@@ -36,7 +36,7 @@ void buildFrame(char *inData,char* fdOut_One){
 	{
 		printf("fdIn[1] is %d\n",fdOut);
 		fp = fopen("data.chck","a");
-		fputs(frame,fp);
+		fputs(frame,fp); 	
 	}
 	fclose(fp);
 	write(fdOut,frame,sizeof(frame));						//write to pipe, be it fdOut or fdIn

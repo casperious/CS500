@@ -85,7 +85,7 @@ int checkRemoveParity(char** characters)
 				//exit(-10);
 			}
 			strncpy(block,characters[i]+1,7);
-			printf("Block is %s and num 1s is %d\n",block,numOnes);
+			//printf("Block is %s and num 1s is %d\n",block,numOnes);
 		}
 		else
 		{
@@ -110,18 +110,18 @@ int checkRemoveParity(char** characters)
 				//exit(-10);
 			}
 			strncpy(block,characters[i]+1,7);
-			printf("Block is %s and numOnes is %d\n",block,numOnes);
+			//printf("Block is %s and numOnes is %d\n",block,numOnes);
 		}
 		removedBitsChars[k]=strdup(block);
-		printf("block at %d is %s\n",k,removedBitsChars[k]);
+		//printf("block at %d is %s\n",k,removedBitsChars[k]);
 		k++;
 	}
 	removedBitsChars[len-1]=NULL;
 	//printf("Size of removedBitsChars is %ld\n",sizeof(removedBitsChars));
-	for(int i =0;i<len;i++)
+	/*for(int i =0;i<len;i++)
 	{
 		printf("removedBitsChars[%d] is %s\n",i,removedBitsChars[i]);
-	}
+	}*/
 	//printf("Size of removedBitsChars is %ld\n",sizeof(removedBitsChars)/sizeof(*removedBitsChars));
 	printf("All parity bits verified \n");
 	int pid;

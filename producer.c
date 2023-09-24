@@ -96,7 +96,7 @@ int main(){
 				newPid = fork();
 				if(newPid==0)
 				{
-					//printf("Calling encoder on %s\n",str);
+					printf("Calling encoder on %s\n",str);
 					execl("encoderService","encoderService",str,"64",arg,NULL);
 				}
 				else if(newPid>0)
@@ -126,7 +126,7 @@ int main(){
 		pid=fork();
 		if(pid==0){
 			//printf("In child \n");
-			//printf("Pushing %s",str);
+			printf("Pushing %s",str);
 			//printf("fdIn is %d,%d and fdOut is %d,%d\n",fdIn[0],fdIn[1],fdOut[0],fdOut[1]);
 			execl("encoderService","encoderService",str,countStr,arg,NULL);
 		}

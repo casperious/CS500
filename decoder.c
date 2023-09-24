@@ -19,7 +19,13 @@ int main(int argc, char* argv[])
 int decode(char** blocks)
 {
 	//printf("First block is %s\n",blocks[1]);
-	int numChars = sizeof(blocks) -2 -2;						// shell and session manager are the last 2 elements of argv. Remove argv[0] and null so 4 elements removed
+	printf("Size of blocks is %ld\n",sizeof(blocks));
+	int len = 0;
+	while(blocks[len+2]!='\0')
+	{
+		len++;
+	}
+	int numChars = len;//sizeof(blocks) -2 -2;						// shell and session manager are the last 2 elements of argv. Remove argv[0] and null so 4 elements removed. Num chars here is completely wrong. pass size of array as arg
 	printf("Num chars is %d\n",numChars);
 	char* fdIn_One = blocks[1];
 	printf("fdIn[1] in decoder is %s\n",fdIn_One);
@@ -37,11 +43,12 @@ int decode(char** blocks)
 	}
 	printf("\n");
 	data[numChars] = '\0';
-	for(int i =0;i<=numChars;i++)
+	/*for(int i =0;i<=numChars;i++)
 	{
 		printf("%c ",data[i]);
 	}
 	printf("\n");
+	*/
 	char charCount[64];
 	sprintf(charCount,"%d",numChars+1);
 	printf("charCount is %s\n",charCount);																			//pass -1 as fdIn_One when calling from producer. if(fd==-1) then write to data.done, else fork
