@@ -20,10 +20,34 @@ int consumer(char* fdOut_Zero,char* fdIn_One)
 	sscanf(fdIn_One, "%d", &fdIn);
 	//printf("fdIn[1] is %d\n",fdIn);
 	char buff[1025];
-	read(fdOut,buff,1025);
+	ssize_t inp;
+	while((inp=read(fdOut,buff,1025))>0)
+	{
+		printf("Recieved %s in consumer\n",buff);
+		FILE* fp;
+		fp = fopen("consumer.txt","a");
+		fputs(buff,fp);
+		fclose(fp);
+		int pid1;
+		pid1 = fork();
+		if(pid1==0)
+		{
+			execl("deframe","deframe",buff,fdIn_One,NULL);
+		}
+		else if (pid1>0)
+		{
+			wait(NULL);
+		}
+		else
+		{
+			printf("Failed fork");
+		}
+	}
+	//read(fdOut,buff,1025);
+	/*
 	printf("Recieved %s in consumer\n",buff);
 	FILE* fp;
-	fp = fopen("consumer.txt","w");
+	fp = fopen("consumer.txt","a");
 	fputs(buff,fp);
 	fclose(fp);
 	int pid1;
@@ -57,6 +81,7 @@ int consumer(char* fdOut_Zero,char* fdIn_One)
 	else {
 		printf("Failed fork\n");
 	}*/
+	
 	return 0;
 
 }

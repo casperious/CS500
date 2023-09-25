@@ -141,6 +141,31 @@ int main(){
 	}
 	int status,options;
 	char buff[1025];
+	ssize_t capped;
+	while((capped=read(fdIn[0],buff,sizeof(buff)))>0)
+	{
+		printf("recieved capitalized %s of size %ld\n",buff,(strlen(buff)/8)-3);
+		//char strLen[64];
+		//sprintf(strLen,"%ld",(strlen(buff)/8)-3);
+		char argLast[4];
+		sprintf(argLast,"%d",-1);
+		int lastPid;
+		lastPid=fork();
+		if(lastPid==0){
+			printf("deframing capitalized\n");
+			execl("deframe","deframe",buff,argLast,NULL);
+		}
+		else if(lastPid>0)
+		{
+			wait(NULL);
+		}
+		else
+		{
+			printf("Last fork\n");
+		}	
+		waitpid(lastPid,&status,options);
+	}
+	/*
 	read(fdIn[0],buff,sizeof(buff));
 	printf("recieved capitalized %s of size %ld\n",buff,(strlen(buff)/8)-3);
 	//char strLen[64];
@@ -161,7 +186,8 @@ int main(){
 	{
 		printf("Last fork\n");
 	}
-	waitpid(lastPid,&status,options);
+	*/
+	//waitpid(lastPid,&status,options);
 	waitpid(consPid,&status,options);				//wait on consumer process to finish
 	printf("finished consumer\n");
 	close(fdIn[0]);
