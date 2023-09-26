@@ -33,7 +33,7 @@ int deframe(char* inData,char* fdIn_One)
 		else
 		{
 			characters[k]=strdup(block);
-			printf("adding %s to characters[%d]\n",characters[k],k);
+			//printf("adding %s to characters[%d]\n",characters[k],k);
 			j = 0;
 			block[j]=inData[i];
 			j++;

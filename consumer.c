@@ -21,7 +21,7 @@ int consumer(char* fdOut_Zero,char* fdIn_One)
 	//printf("fdIn[1] is %d\n",fdIn);
 	char buff[1025];
 	ssize_t inp;
-	while((inp=read(fdOut,buff,1025))>0)
+	while((inp=read(fdOut,buff,sizeof(buff)))>0)
 	{
 		printf("Recieved %ld sized string %s in consumer\n",strlen(buff),buff);
 		//FILE* fp;
@@ -81,7 +81,9 @@ int consumer(char* fdOut_Zero,char* fdIn_One)
 	else {
 		printf("Failed fork\n");
 	}*/
-	
+	//printf("Finished consumer %d %d\n",fdOut,fdIn);
+	close(fdOut);
+	close(fdIn);
 	return 0;
 
 }
