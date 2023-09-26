@@ -17,7 +17,7 @@ int encode(char *inData,char* len, char* fdOut_One){
 	char bin[1025]="";
 	int length;
 	sscanf(len,"%d",&length);
-	printf("length is %d\n",length);
+	printf("length of %s is %d\n",inData,length);
 	int num = length;
 	int j =6;
 	char res[7]="0000000";
@@ -49,7 +49,7 @@ int encode(char *inData,char* len, char* fdOut_One){
 	int pid;
 	pid = fork();
 	if(pid==0){
-		//printf("In encoder child pushing %s to parityAddService\n",bin);
+		//printf("In encoder pushing \n %s as \n %s to parityAddService\n",inData,bin);
 		execl("parityAddService","parityAddService",bin,fdOut_One,NULL);
 	}
 	else if(pid>0)

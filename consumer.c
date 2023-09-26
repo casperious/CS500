@@ -23,11 +23,11 @@ int consumer(char* fdOut_Zero,char* fdIn_One)
 	ssize_t inp;
 	while((inp=read(fdOut,buff,1025))>0)
 	{
-		printf("Recieved %s in consumer\n",buff);
-		FILE* fp;
-		fp = fopen("consumer.txt","a");
-		fputs(buff,fp);
-		fclose(fp);
+		printf("Recieved %ld sized string %s in consumer\n",strlen(buff),buff);
+		//FILE* fp;
+		//fp = fopen("consumer.txt","a");
+		//fputs(buff,fp);
+		//fclose(fp);
 		int pid1;
 		pid1 = fork();
 		if(pid1==0)

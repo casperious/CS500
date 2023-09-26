@@ -13,7 +13,7 @@ int main(){
 	FILE* binf;
 	FILE* outf;
 	FILE* clearDone;
-	char str[64];
+	char str[65];
 	
 	int pid;
 	
@@ -76,7 +76,7 @@ int main(){
 		close(fdIn[1]);		*/		  										//close write of fdIn
 		close(fdOut[0]);													//close read of p=>c
 		close(fdIn[1]);														//close write of c=>p
-		printf("Producer parent\n");
+		//printf("Producer parent\n");
 	}
 	else
 	{
@@ -85,18 +85,18 @@ int main(){
 	}
 	char arg[4];
 	sprintf(arg,"%d",fdOut[1]);
+	int newPid;
 	while((ch = getc(ptr))!=EOF)
 	{
 		if(count<64){
 			str[count]=ch;
 			count++;
-			if(count==63)
+			if(count==64)
 			{
-				int newPid;
 				newPid = fork();
 				if(newPid==0)
 				{
-					printf("Calling encoder on %s\n",str);
+					printf("Calling encoder on \n*************\n %s\n**************\n",str);
 					execl("encoderService","encoderService",str,"64",arg,NULL);
 				}
 				else if(newPid>0)
@@ -112,21 +112,23 @@ int main(){
 		}
 		else
 		{
-			count = 0;
-			memset(str,'\0',sizeof(str));
+			//count = 0;
+			memset(str,'\0',65);
 			str[0]=ch;
-			count++;
-			printf("str is now %s\n",str);
+			count=1;
+			printf("str read is now %s\n",str);
 		}
 	}
 	count -=1;
 	char countStr[64];
 	sprintf(countStr,"%d",count);
+	int status,options;
+	//waitpid(newPid,&status,options);
 	if(count>0){
 		pid=fork();
 		if(pid==0){
 			//printf("In child \n");
-			printf("Pushing %s",str);
+			printf("Pushing last ^^^^^^^^^^^^^^^^^^^^^^^^^^\n %s  \n^^^^^^^^^^^^^^^^^^^^^^^\n of length %s\n",str,countStr);
 			//printf("fdIn is %d,%d and fdOut is %d,%d\n",fdIn[0],fdIn[1],fdOut[0],fdOut[1]);
 			execl("encoderService","encoderService",str,countStr,arg,NULL);
 		}
@@ -139,12 +141,11 @@ int main(){
 			printf("No fork \n");
 		}
 	}
-	int status,options;
 	char buff[1025];
 	ssize_t capped;
 	while((capped=read(fdIn[0],buff,sizeof(buff)))>0)
 	{
-		printf("recieved capitalized %s of size %ld\n",buff,(strlen(buff)/8)-3);
+		//printf("recieved capitalized %s of size %ld\n",buff,(strlen(buff)/8)-3);
 		//char strLen[64];
 		//sprintf(strLen,"%ld",(strlen(buff)/8)-3);
 		char argLast[4];
@@ -163,7 +164,7 @@ int main(){
 		{
 			printf("Last fork\n");
 		}	
-		waitpid(lastPid,&status,options);
+		//waitpid(lastPid,&status,options);
 	}
 	/*
 	read(fdIn[0],buff,sizeof(buff));

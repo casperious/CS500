@@ -24,21 +24,22 @@ void buildFrame(char *inData,char* fdOut_One){
 	strncat(frame,syn,8);
 	strncat(frame,syn,8);
 	strncat(frame,inData,strlen(inData));
-	printf("Frame is %s\n",frame);
+	printf("Frame length in buildFrame is %ld\n",strlen(frame));
 	FILE *fp;
 	if(fdOut<7)
 	{
-		printf("fdOut[1] is %d\n",fdOut);
+		//printf("fdOut[1] is %d\n",fdOut);
 		fp = fopen("data.binf","a");
 		fputs(frame,fp);
 	}
 	else
 	{
-		printf("fdIn[1] is %d\n",fdOut);
+		//printf("fdIn[1] is %d\n",fdOut);
 		fp = fopen("data.chck","a");
 		fputs(frame,fp); 	
 	}
 	fclose(fp);
+	//printf("size of frame in buildFrame is %ld\n",sizeof(frame));
 	write(fdOut,frame,sizeof(frame));						//write to pipe, be it fdOut or fdIn
 	//printf("fdIn is %d,%d and fdOut is %d,%d\n",fdIn[0],fdIn[1],fdOut[0],fdOut[1]);
 }

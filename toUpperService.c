@@ -17,7 +17,7 @@ int toUpper(char* str, char* len,char* fdIn_One)
 	int length;
 	sscanf(len,"%d",&length);
 	printf("Checking chars in %s of length %d and converting to upper\n", str,length);
-	printf("fdIn[1] is %s\n",fdIn_One);
+	//printf("fdIn[1] is %s\n",fdIn_One);
 	char upperString[length-1];
 	for(int i =0; i<length;i++)
 	{

@@ -19,7 +19,7 @@ chars[4] is numChars
 */
 int checkRemoveParity(char** characters)		
 {
-	//printf("args[3] in removeParity is %s\n",characters[3]);
+	printf("args[4] in removeParity is %s\n",characters[4]);
 	int numCharsNumOnes = 0;			
 	if(characters[4][0]=='0')
 	{
@@ -51,15 +51,19 @@ int checkRemoveParity(char** characters)
 			//exit(-1);
 		}	
 	}
-	int numChars = (int)strtol(characters[4],NULL,2);
-	printf("Num chars is %d\n",numChars);
+	//remove first bit in characters[4]
+	char lenBin[7]="";
+	memcpy(lenBin,&characters[4][1],7);
+	printf("lenBin is %s\n",lenBin);
+	int numChars = (int)strtol(lenBin,NULL,2);
+	printf("Num chars in checkParity is %d\n",numChars);
 	char* removedBitsChars[numChars+3];										//+1 for decoder, +1 for fdIn[1], +1 for null
 	int len = sizeof(removedBitsChars)/sizeof(*removedBitsChars);
-	printf("Size of removedBitsChars is %d\n",len);
+	//printf("Size of removedBitsChars is %d\n",len);
 	removedBitsChars[0]="decoder";
 	removedBitsChars[1]=characters[1];
-	printf("removedBitsChars[0] is %s\n",removedBitsChars[0]);
-	printf("removedBitsChars[1] is %s\n",removedBitsChars[1]);
+	//printf("removedBitsChars[0] is %s\n",removedBitsChars[0]);
+	//printf("removedBitsChars[1] is %s\n",removedBitsChars[1]);
 	int k =2;
 	//char* removedBitsChars[66]={""};
 	for(int i = 5;i<=numChars+4;i++)
