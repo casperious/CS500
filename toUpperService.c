@@ -30,6 +30,8 @@ int toUpper(char* str, char* len,char* fdIn_One)
 			upperString[i]=str[i];
 		}
 	}
+	//free(str);
+	str=NULL;
 	printf("Upper string is %s\n",upperString);
 	FILE *fp;
 	fp = fopen("data.outf","a");
