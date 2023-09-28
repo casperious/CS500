@@ -195,7 +195,7 @@ int main(){
 	waitpid(consPid,&status,options);				//wait on consumer process to finish
 	printf("finished consumer ending producer\n");
 	
-	//close(fdOut[1]);
+	close(fdOut[1]);
 	fclose(ptr);
 	return 0;
 
