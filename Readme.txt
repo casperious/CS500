@@ -11,3 +11,5 @@ Then to re-encode and send the capitalized frame through a pipe back to the prod
 The final result should be saved in data.done
 
 An error module has been added, to flip a random bit in the Third frame.
+
+To Run this program, navigate to the folder in your directory, and type ./producer in your shell.
