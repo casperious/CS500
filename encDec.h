@@ -1,6 +1,5 @@
 int producer();
 int encode(char *inData,char *len, char* fdOut_One);
-int transmit(char inData[]);
 int decode(char** blocks);
 int toUpper(char* str, char* len,char* fdIn_One);
 int consumer(char* fdOut,char* fdIn);
