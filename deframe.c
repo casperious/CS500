@@ -13,12 +13,7 @@ int main(int argc, char* argv[])
 
 int deframe(char* inData,char* fdIn_One)
 {
-	//printf("Recieved %s in deframe\n",inData);
-	
-	char* characters[69]={"checkRemoveParityService",fdIn_One};														//way im initializing characters may be wrong. Might not work for 64 chars
-	//printf("chars[1] is %s\n",characters[1]);
-	//printf("chars[0] is %s\n",characters[0]);
-	//printf("strlen(inData) is %ld\n",strlen(inData));
+	char* characters[69]={"checkRemoveParityService",fdIn_One};	
 	int j =0;
 	int k =2;
 	char block[9]="00000000";
@@ -33,14 +28,12 @@ int deframe(char* inData,char* fdIn_One)
 		else
 		{
 			characters[k]=strdup(block);
-			//printf("adding %s to characters[%d]\n",characters[k],k);
 			j = 0;
 			block[j]=inData[i];
 			j++;
 			k++;
 		}
 	}
-	//printf("characters[69] is %s\n",characters[69]);
 	if(strcmp(characters[2],"00010110")!=0 || strcmp(characters[3],"00010110")!=0)
 	{
 		printf("Incorrect syn chars characters[2] = %s chars[3] = %s\n",characters[2],characters[3]);
@@ -50,7 +43,6 @@ int deframe(char* inData,char* fdIn_One)
 	pid = fork();
 	if(pid==0)
 	{
-		//printf("Sending blocks to check parity\n");
 		execv("checkRemoveParityService",characters);
 	}
 	else if(pid>0)

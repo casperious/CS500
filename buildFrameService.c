@@ -24,7 +24,7 @@ void buildFrame(char *inData,char* fdOut_One){
 	strncat(frame,syn,8);
 	strncat(frame,syn,8);
 	strncat(frame,inData,strlen(inData));
-	printf("Frame length in buildFrame is %ld\n",strlen(frame));
+	//printf("Frame length in buildFrame is %ld\n",strlen(frame));
 	FILE *fp;
 	if(fdOut<7)
 	{

@@ -16,8 +16,6 @@ int toUpper(char* str, char* len,char* fdIn_One)
 {
 	int length;
 	sscanf(len,"%d",&length);
-	printf("Checking chars in %s of length %d and converting to upper\n", str,length);
-	//printf("fdIn[1] is %s\n",fdIn_One);
 	char upperString[length-1];
 	for(int i =0; i<length;i++)
 	{
@@ -30,13 +28,10 @@ int toUpper(char* str, char* len,char* fdIn_One)
 			upperString[i]=str[i];
 		}
 	}
-	//free(str);
 	str=NULL;
-	printf("Upper string is %s\n",upperString);
 	FILE *fp;
 	fp = fopen("data.outf","a");
 	fputs(upperString,fp);
-	//upperString[length]='\0';
 	fclose(fp);
 	length = length-1;
 	char lenArg[64];
@@ -45,13 +40,11 @@ int toUpper(char* str, char* len,char* fdIn_One)
 	pid=fork();
 	if(pid==0)
 	{
-		//printf("Calling encoder on %s\n",str);
 		execl("encoderService","encoderService",upperString,lenArg,fdIn_One,NULL);			//include fd for writing to pipe
 	}
 	else if(pid>0)
 	{
 		wait(NULL);
-		printf("In loop parent \n");
 	}
 	else
 	{

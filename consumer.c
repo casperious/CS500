@@ -15,19 +15,12 @@ int consumer(char* fdOut_Zero,char* fdIn_One)
 {
 	int fdOut;
 	sscanf(fdOut_Zero,"%d",&fdOut);
-	//printf("fdOut[0] is %d\n",fdOut);
 	int fdIn;
 	sscanf(fdIn_One, "%d", &fdIn);
-	//printf("fdIn[1] is %d\n",fdIn);
 	char buff[1025];
 	ssize_t inp;
 	while((inp=read(fdOut,buff,sizeof(buff)))>0)
 	{
-		printf("Recieved %ld sized string %s in consumer\n",strlen(buff),buff);
-		//FILE* fp;
-		//fp = fopen("consumer.txt","a");
-		//fputs(buff,fp);
-		//fclose(fp);
 		int pid1;
 		pid1 = fork();
 		if(pid1==0)
@@ -43,45 +36,6 @@ int consumer(char* fdOut_Zero,char* fdIn_One)
 			printf("Failed fork");
 		}
 	}
-	//read(fdOut,buff,1025);
-	/*
-	printf("Recieved %s in consumer\n",buff);
-	FILE* fp;
-	fp = fopen("consumer.txt","a");
-	fputs(buff,fp);
-	fclose(fp);
-	int pid1;
-	pid1 = fork();
-	if(pid1==0)
-	{
-		execl("deframe","deframe",buff,fdIn_One,NULL);
-	}
-	else if (pid1>0)
-	{
-		wait(NULL);
-	}
-	else
-	{
-		printf("Failed fork");
-	}
-	return 0;
-	/*int pid;
-	pid = fork();
-	if(pid==0)
-	{
-		//printf("executing deframer on %s\n",buff);
-		execl("deframe","deframe",buff,NULL);
-	}
-	else if(pid>0)
-	{
-		wait(NULL);
-		printf("Finished calling deframe\n");
-		//return 0;
-	}
-	else {
-		printf("Failed fork\n");
-	}*/
-	//printf("Finished consumer %d %d\n",fdOut,fdIn);
 	close(fdOut);
 	close(fdIn);
 	return 0;

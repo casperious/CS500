@@ -5,19 +5,17 @@
 #include <string.h>
 #include "encDec.h"
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
-	//printf("In encoder \n");
-	//printf("string length passed is %s of size %ld\n",argv[2],strlen(argv[2]));
-	encode(argv[1],argv[2],argv[3]);
+	error(argv[1],argv[2],argv[3]);
 	return 0;
 }
 
-int encode(char *inData,char* len, char* fdOut_One){
+int error(char *inData,char* len, char* fdOut_One){
+
 	char bin[1025]="";
 	int length;
 	sscanf(len,"%d",&length);
-	//printf("length of %s is %d\n",inData,length);
 	int num = length;
 	int j =6;
 	char res[7]="0000000";
@@ -28,9 +26,12 @@ int encode(char *inData,char* len, char* fdOut_One){
 		num=num/2;
 		j--;
 	}
-	//printf("Binary result of length is %s\n",res);
 	strncat(bin,res,7);
-	
+	int currPid = getpid();
+	srand(currPid);
+	int random = rand();
+	int idx = random%length;
+	printf("Index to be flipped is %d and char is %c\n",idx, inData[idx/7]);
 	for(int i =0;i<length;i++){
 		int ascii = inData[i];										//Get ascii int value of character
 		int num = ascii;
@@ -43,19 +44,24 @@ int encode(char *inData,char* len, char* fdOut_One){
 			num=num/2;												//divide ascii by 2
 			j--;													//move to next lowest bit to be stored	
 		}
-		//printf("result for inData[%d] is %s\n",i,result);
 		strncat(bin,result,7);
+	}
+	if(bin[idx+7]=='1')
+	{
+		bin[idx+7]='0';
+	}
+	else
+	{
+		bin[idx+7]='1';
 	}
 	int pid;
 	pid = fork();
 	if(pid==0){
-		//printf("In encoder pushing \n %s as \n %s to parityAddService\n",inData,bin);
 		execl("parityAddService","parityAddService",bin,fdOut_One,NULL);
 	}
 	else if(pid>0)
 	{
 		wait(NULL);
-		//printf("Sent binary to parity service\n");
 	}
 	else
 	{
@@ -63,5 +69,4 @@ int encode(char *inData,char* len, char* fdOut_One){
 	}
 	
 	return 0;
-
 }

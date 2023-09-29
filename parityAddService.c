@@ -62,7 +62,7 @@ void addParity(char *inData, char* fdOut_One)
 	}
 	else if(pid>0)
 	{
-		printf("In parity parent\n");
+		//printf("In parity parent\n");
 		wait(NULL);
 	}
 

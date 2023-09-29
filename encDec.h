@@ -8,3 +8,4 @@ void addParity(char *inData, char* fdOut_One);
 void buildFrame(char *inData, char* fdOut_One);
 int deframe(char *inData, char* fdIn_One);
 int checkRemoveParity(char** characters);
+int error(char *inData, char* len, char* fdOut_One);
