@@ -42,4 +42,5 @@ void buildFrame(char *inData,char* fdOut_One){
 	//printf("size of frame in buildFrame is %ld\n",sizeof(frame));
 	write(fdOut,frame,sizeof(frame));						//write to pipe, be it fdOut or fdIn
 	//printf("fdIn is %d,%d and fdOut is %d,%d\n",fdIn[0],fdIn[1],fdOut[0],fdOut[1]);
+	return;
 }
