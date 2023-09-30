@@ -7,19 +7,32 @@
 
 int main(int argc, char* argv[])
 {
-	error(argv[1],argv[2],argv[3]);
+	error(argv[1],argv[2],argv[3],argv[4]);
 	return 0;
 }
 
-int error(char *inData,char* len, char* fdOut_One){
+/*
 
-	char bin[1025]="";
+Error generator. Uses current pid as seed for srand. Generates random number, and does %length to get index to flip
+
+Args:-
+	inData = string to be encoded
+	len = length of string to be encoded
+	fdOut_One = file descriptor of pipe to write to
+	isCap = flag for if consumer called, or producer
+	
+*/
+
+
+int error(char *inData,char* len, char* fdOut_One,char* isCap){
+
+	char bin[1025]="";											//binary encoding of length + characters
 	int length;
-	sscanf(len,"%d",&length);
+	sscanf(len,"%d",&length);									//store length as int
 	int num = length;
 	int j =6;
 	char res[7]="0000000";
-	while(num>0)
+	while(num>0)												//get 7 character long binary encoding of length
 	{
 		int mod = num%2;
 		res[j]=mod+'0';
@@ -28,9 +41,9 @@ int error(char *inData,char* len, char* fdOut_One){
 	}
 	strncat(bin,res,7);
 	int currPid = getpid();
-	srand(currPid);
+	srand(currPid);												//use current pid as seed
 	int random = rand();
-	int idx = random%length;
+	int idx = random%length;									//get index to be flipped	
 	printf("Index to be flipped is %d and char is %c\n",idx, inData[idx/7]);
 	for(int i =0;i<length;i++){
 		int ascii = inData[i];										//Get ascii int value of character
@@ -46,18 +59,18 @@ int error(char *inData,char* len, char* fdOut_One){
 		}
 		strncat(bin,result,7);
 	}
-	if(bin[idx+7]=='1')
+	if(bin[idx+7]=='1')												//if bit is 1, flip to 0
 	{
 		bin[idx+7]='0';
-	}
-	else
+	}	
+	else															//else flip bit to 1
 	{
 		bin[idx+7]='1';
 	}
 	int pid;
 	pid = fork();
 	if(pid==0){
-		execl("parityAddService","parityAddService",bin,fdOut_One,NULL);
+		execl("parityAddService","parityAddService",bin,fdOut_One,isCap,NULL);		//pass erroneous string to parityAdd with pipe fd and isCap
 	}
 	else if(pid>0)
 	{
