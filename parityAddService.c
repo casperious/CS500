@@ -7,7 +7,7 @@
 
 int main(int argc, char *argv[])
 {
-	addParity(argv[1],argv[2],argv[3],argv[4]);
+	addParity(argv[1],argv[2],argv[3]);
 	return 0;
 }
 
@@ -19,9 +19,9 @@ Args:-
 	inData - 7 character binary encoded data, length + chars
 	fdOut_One - pipe file descriptor to write to
 	isCap - 0 if producer called, 1 if consumer called
-	flag= flag for hamming or crc
+	
 */
-void addParity(char *inData, char* fdOut_One,char* isCap,char* flag)
+void addParity(char *inData, char* fdOut_One,char* isCap)
 {
 	char outData[1025] = "";								//parity bit added, binary encoded result string
 	int j =1;
@@ -63,15 +63,7 @@ void addParity(char *inData, char* fdOut_One,char* isCap,char* flag)
 	pid = fork();
 	if(pid==0)
 	{
-		if(flag[0]=='h')
-		{
-			execl("hamming","hamming",outData,fdOut_One,isCap,NULL);
-		}
-		else
-		{
-			execl("crcAdd","crcAdd",outData,fdOut_One,isCap,NULL);
-		}
-		//execl("buildFrameService","buildFrameService",outData,fdOut_One,isCap,NULL);		//call buildFrameService with 8 char, parity bit, binary encoded string, fd to write to, and isCap
+		execl("buildFrameService","buildFrameService",outData,fdOut_One,isCap,NULL);		//call buildFrameService with 8 char, parity bit, binary encoded string, fd to write to, and isCap
 	}
 	else if(pid>0)
 	{

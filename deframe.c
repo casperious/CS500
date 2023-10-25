@@ -7,7 +7,7 @@
 
 int main(int argc, char* argv[])
 {
-	deframe(argv[1],argv[2],argv[3]);
+	deframe(argv[1],argv[2]);
 	return 0;
 }
 
@@ -21,20 +21,9 @@ Args:-
 
 */
 
-int deframe(char* inData,char* fdIn_One,char* flag)
+int deframe(char* inData,char* fdIn_One)
 {
-	//char* characters[69]={"checkRemoveParityService",fdIn_One};				//intialize argument string for execv with service name, pipe fd
-	char* characters[100]={};
-	if(flag[0]=='h')
-	{
-		characters[0] = "hammingDecode";
-	}
-	else
-	{
-		characters[0] = "checkRemoveParityService";
-	}
-	//printf("%s\n",characters[0]);
-	characters[1] = fdIn_One;
+	char* characters[69]={"checkRemoveParityService",fdIn_One};				//intialize argument string for execv with service name, pipe fd
 	int j =0;
 	int k =2;
 	char block[9]="00000000";
@@ -64,16 +53,7 @@ int deframe(char* inData,char* fdIn_One,char* flag)
 	pid = fork();
 	if(pid==0)
 	{
-		if(flag[0]=='h')
-		{
-			printf("calling hammingDecode\n");
-			execv("hammingDecode",characters);
-		}
-		else
-		{
-			execv("checkRemoveParityService",characters);	
-		}
-		//execv("checkRemoveParityService",characters);						//call checkRemoveParityService with arg string
+		execv("checkRemoveParityService",characters);						//call checkRemoveParityService with arg string
 	}
 	else if(pid>0)
 	{
